@@ -2,7 +2,7 @@ name: qwq
 on:
   push:
   schedule:
-  - cron: "0 2-13 * * *"
+  - cron: "0 2-16 * * *"
   
 
 jobs:
