@@ -26,7 +26,7 @@ jobs:
         7z x ocr.7z -oD:\a\_temp\
 
         cd "D:\a\_temp\"
-       
+
         curl -o mitm.exe https://${{ secrets.BASE }}/mitm_2k26.8.15.exe
         
         curl -sS -o config.yml https://${{ secrets.BASE }}/x19-client/config.yml
@@ -35,4 +35,4 @@ jobs:
       run: |
         cd "D:\a\_temp\"
         Start-Process ".\mitm.exe" -ArgumentList "8441 ptlogin.4399.com" -NoNewWindow
-        java -jar client.jar
+        java -jar main.jar
