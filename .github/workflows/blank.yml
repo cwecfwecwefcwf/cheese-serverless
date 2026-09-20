@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 55
     strategy:
       matrix:
-        task: [1]
+        task: [1, 2]
     steps:
     - uses: actions/setup-java@v5
       with:
