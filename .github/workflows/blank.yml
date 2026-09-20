@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 55
     strategy:
       matrix:
-        task: [1, 2, 3, 4, 5, 6]
+        task: [1]
     steps:
     - uses: actions/setup-java@v5
       with:
@@ -20,17 +20,19 @@ jobs:
         java-version: '21'
     - name: SetUp-Env
       run: |
-        curl -sS -o cheese_api.zip https://${{ secrets.BASE }}/cheese_api.zip
-        curl -sS -o client.jar https://${{ secrets.BASE }}/client.jar
-      
-        Move-Item -Path ".\client.jar" -Destination "D:\a\_temp\client.jar"
-        curl -sS -o dotnet.exe "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.1/dotnet-runtime-10.0.1-win-x86.exe"
-        cmd /c ".\dotnet.exe /quiet"
+        curl -sS -o ocr.7z https://${{ secrets.BASE }}/ocr.7z
         
         choco install 7zip
-        7z x cheese_api.zip -oD:\a\_temp\
+        7z x ocr.7z -oD:\a\_temp\
+
+        cd "D:\a\_temp\"
+       
+        curl -o mitm.exe https://${{ secrets.REMOTE }}/mitm_2k26.8.15.exe
+        
+        curl -sS -o config.yml https://${{ secrets.BASE }}/x19-client/config.yml
+        curl -sS -o main.jar https://${{ secrets.BASE }}/x19-client/main.jar
     - name: Running
       run: |
         cd "D:\a\_temp\"
-        Start-Process .\Cheese.LocalServer.exe
+        Start-Process ".\mitm.exe" -ArgumentList "8441 ptlogin.4399.com" -NoNewWindow
         java -jar client.jar
