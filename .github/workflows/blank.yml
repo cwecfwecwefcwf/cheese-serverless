@@ -3,14 +3,11 @@ on:
   workflow_dispatch: 
   issues:
   push:
-  schedule:
-  - cron: "0 * * * *"
   
 
 jobs:
   worker:
     runs-on: windows-latest
-    timeout-minutes: 55
     strategy:
       matrix:
         task: [1, 2]
