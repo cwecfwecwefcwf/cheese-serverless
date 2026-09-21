@@ -1,9 +1,10 @@
 name: qwq
 on:
   workflow_dispatch: 
+  issues:
   push:
   schedule:
-  - cron: "0 2-16 * * *"
+  - cron: "0 * * * *"
   
 
 jobs:
